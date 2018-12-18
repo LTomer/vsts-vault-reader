@@ -1,0 +1,23 @@
+{
+  "name": "vault",
+  "version": "1.0.1",
+  "description": "Vault Login & Get data from server",
+  "main": "ftpuploadtask.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microsoft/vsts-tasks.git"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/vsts-tasks/issues"
+  },
+  "homepage": "https://github.com/Microsoft/vsts-tasks#readme",
+  "dependencies": {
+    "parse-json": "^4.0.0",
+    "vsts-task-lib": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.5.6"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "34d19f40-9306-11e8-80f8-e3fce4d54d7e",
+  "name": "VaultReader",
+  "friendlyName": "Vault Reader",
+  "description": "Login & Get Values from HashiCorp Vault Server",
+  "author": "Tomer Levitt",
+  "helpMarkDown": "add Vault cli to path environment variable. Task icon taken from https://icons8.com/",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+    "VAULT_ADDR"
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "2",
+    "Patch": "76"
+  },
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Vault Reader",
+  "inputs": [
+    {
+      "name": "connectedServiceName",
+      "type": "connectedService:Generic",
+      "label": "Vault User",
+      "defaultValue": "",
+      "helpMarkDown": "Select a previously registered service connection to talk to the Vault service. Choose 'Manage' to register a new service connection."
+    },
+    {
+      "name": "json",
+      "type": "multiLine",
+      "label": "Json",
+      "defaultValue": "{\r    \"Values\": [\r        {\r            \"Path\": \"Secret1\",\r            \"Field\": \"username\",\r            \"Variable\": \"user\"\r        },\r        {\r            \"Path\": \"Secret1\",\r            \"Field\": \"password\",\r            \"Variable\": \"pass\"\r        }\r    ],\r    \"Files\": [\r        {\r            \"Path\": \"Secret2\",\r            \"Field\": \"pem\",\r            \"Variable\": \"pemFile\"\r        }\r    ]\r}",
+      "required": true,
+      "helpMarkDown": "Get values from Vault server using JSON",
+      "properties": {
+        "resizable": "true",
+        "rows": "20",
+        "maxLength": "5000"
+      }
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "vaultTask.js",
+      "argumentFormat": ""
+    },
+    "PowerShell3": {
+      "target": "vaultTask.ps1",
+      "platforms": [
+        "windows"
+      ]
+    }
+  }
+}
