@@ -44,7 +44,7 @@ foreach( $data in $json.Values ) {
 		exit
 	}
 
-	Write-Host ("##vso[task.setvariable variable=$var;issecret=false]$val")
+	Write-Host ("##vso[task.setvariable variable=$var;issecret=true]$val")
 }
 
 #Files property - Get Value into file using path & field, variable will contain file path
