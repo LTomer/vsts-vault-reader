@@ -69,16 +69,28 @@ function run() {
 			let filename = tempDirectory + "/" + Guid.create();
 			var val = tl.execSync('sudo', 'vault read -field=' + field + ' ' + path );
 
-			const fs = require('fs')
-			fs.writeFile(filename, val.stdout, (err) => {
-				if (err) {
-					tl.error(' --==->> vault read failed')
-					tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed')
-					return
-				}
+			if(val.code != 0){
+				console.log('Code: ' + val.code);
+				console.log('error: ' + val.error);
+				
+				tl.error('==> vault read failed')
+				tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed')
+			}
+			else{
 
-				console.log("##vso[task.setvariable variable=" + variable + ";issecret=false]" + filename);
-			});
+				//write field to file
+				const fs = require('fs')
+				fs.writeFile(filename, val.stdout, (err) => {
+					if (err) {
+						tl.error('==> write to file - failed')
+						tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'write to file - failed')
+						return
+					}
+
+					//update variable with full name
+					console.log("##vso[task.setvariable variable=" + variable + ";issecret=false]" + filename);
+				});
+			}
 		}
 	}
 
