@@ -25,8 +25,8 @@ function run() {
 		console.log('Code: ' + res.code);
 		console.log('error: ' + res.error);
 		
-		tl.error('vault login failed')
 		tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault login failed')
+		throw new Error('vault login failed');
 	}
 
 	let jsonObject = JSON.parse(json);
@@ -43,11 +43,11 @@ function run() {
 
 			var val = tl.execSync('sudo', 'vault read -field=' + field + ' ' + path);
 			if(val.code != 0){
-				console.log('Code: ' + val.code);
-				console.log('error: ' + val.error);
+				console.log('Command Code: ' + val.code);
+				console.log('Command Error: ' + val.error);
 				
-				tl.error('vault read failed')
-				tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed')
+				tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed (value)')
+				throw new Error('vault read failed (value)');
 			}
 			else{
 				console.log("##vso[task.setvariable variable=" + variable + ";issecret=true]" + val.stdout);
@@ -70,11 +70,11 @@ function run() {
 			var val = tl.execSync('sudo', 'vault read -field=' + field + ' ' + path );
 
 			if(val.code != 0){
-				console.log('Code: ' + val.code);
-				console.log('error: ' + val.error);
+				console.log('Command Code: ' + val.code);
+				console.log('Command Error: ' + val.error);
 				
-				tl.error('==> vault read failed')
-				tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed')
+				tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed (file)')
+				throw new Error('vault read failed (file)');
 			}
 			else{
 
@@ -82,9 +82,8 @@ function run() {
 				const fs = require('fs')
 				fs.writeFile(filename, val.stdout, (err) => {
 					if (err) {
-						tl.error('==> write to file - failed')
 						tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'write to file - failed')
-						return
+						throw new Error('write value to file - failed');
 					}
 
 					//update variable with full name
