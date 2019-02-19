@@ -41,7 +41,7 @@ function run() {
 
 			console.log("Load: Path=" + path + ", Field=" + field + ", Variable=" + variable);
 
-			var val = tl.execSync('sudo', 'vault read -field=' + field + ' ' + path);
+			var val = tl.execSync('sudo', '-E vault read -field=' + field + ' ' + path);
 			if(val.code != 0){
 				console.log('Command Code: ' + val.code);
 				console.log('Command Error: ' + val.error);
@@ -67,7 +67,7 @@ function run() {
 			console.log("Load File: Path=" + path + ", Field=" + field + ", Variable=" + variable);
 
 			let filename = tempDirectory + "/" + Guid.create();
-			var val = tl.execSync('sudo', 'vault read -field=' + field + ' ' + path );
+			var val = tl.execSync('sudo', '-E vault read -field=' + field + ' ' + path );
 
 			if(val.code != 0){
 				console.log('Command Code: ' + val.code);
