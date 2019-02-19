@@ -19,7 +19,7 @@ function run() {
 	}
 
 	//Login to Vault server
-	let res = tl.execSync('sudo', 'vault login -method=ldap username=' + vaultUser + ' password=' + vaultPass);	
+	let res = tl.execSync('sudo', '-E vault login -method=ldap username=' + vaultUser + ' password=' + vaultPass);	
 	console.log('')
 	if(res.code != 0){
 		console.log('Code: ' + res.code);
