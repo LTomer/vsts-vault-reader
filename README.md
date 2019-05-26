@@ -8,3 +8,5 @@ Login &amp; Get Values from HashiCorp Vault Server.
       VAULT_ADDR=[Vault Server url like http://vaultserver:8200]
 
    * Windows OS - Add VAULT_ADDR as System variable, Value will be the server url
+ 
+ * Windows OS - Download Vault.exe and put at folder 

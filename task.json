@@ -14,9 +14,9 @@
     "VAULT_ADDR"
   ],
   "version": {
-    "Major": "0",
-    "Minor": "3",
-    "Patch": "4"
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
   },
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Vault Reader",
@@ -29,16 +29,16 @@
       "helpMarkDown": "Select a previously registered service connection to talk to the Vault service. Choose 'Manage' to register a new service connection."
     },
     {
-      "name": "json",
+      "name": "data",
       "type": "multiLine",
-      "label": "Json",
-      "defaultValue": "{\r    \"Values\": [\r        {\r            \"Path\": \"Secret1\",\r            \"Field\": \"username\",\r            \"Variable\": \"user\"\r        },\r        {\r            \"Path\": \"Secret1\",\r            \"Field\": \"password\",\r            \"Variable\": \"pass\"\r        }\r    ],\r    \"Files\": [\r        {\r            \"Path\": \"Secret2\",\r            \"Field\": \"pem\",\r            \"Variable\": \"pemFile\"\r        }\r    ]\r}",
+      "label": "Data",
+      "defaultValue": "# {DataType} => {Path} => {Field} => {TFSVar}",
       "required": true,
-      "helpMarkDown": "Get values from Vault server using JSON",
+      "helpMarkDown": "Data Structure: {DataType(var | raw | base64)} => {Path} => {Field} => {TFSVar}.  use # sign for comment. var - insert value into secure TFS Vaiable, raw - save value as is into file and set TFS variable with file location, base64 - decode value as base64 and save into file & set TFS variable with file location",
       "properties": {
         "resizable": "true",
         "rows": "20",
-        "maxLength": "5000"
+        "maxLength": "2000"
       }
     }
   ],
