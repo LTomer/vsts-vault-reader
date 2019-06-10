@@ -11,9 +11,6 @@ function run() {
 	let vaultPass: string = serviceEndpoint.parameters['password'];
 	// url = URL.format(URL.parse(tl.getEndpointUrl(serviceEndpointID, false))); // url has a / at the end
 
-	//Get JSON value from input
-	var json = tl.getInput('json', true);
-
 	if (!vaultUser || !vaultPass) {
 		throw new Error("serviceEndpoint Not Exist");
 	}
@@ -29,70 +26,102 @@ function run() {
 		throw new Error('vault login failed');
 	}
 
-	let jsonObject = JSON.parse(json);
+	//Parser Data ( DataType => Path => Field => Var)
+	var data = tl.getInput('data', true);
 
-	//Values property - Get Value into variable using path & field
-	let values = jsonObject['Values'];
-	if(values !== undefined){
-		for (var i = 0; i < values.length; i++) {
-			let field: string = values[i].Field
-			let path: string = values[i].Path
-			let variable: string = values[i].Variable
+	let tempDirectory = tl.getVariable('agent.tempDirectory'); //get agent temp folder
+	let array = data.split(/\r\n|\r|\n/);
 
-			console.log("Load: Path=" + path + ", Field=" + field + ", Variable=" + variable);
+	for (var i = 0; i < array.length; i++) {
+		let index = i + 1
+		let line = array[i].trim();
 
-			var val = tl.execSync('sudo', '-E vault read -field=' + field + ' ' + path);
-			if(val.code != 0){
-				console.log('Command Code: ' + val.code);
-				console.log('Command Error: ' + val.error);
-				
-				tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed (value)')
-				throw new Error('vault read failed (value)');
-			}
-			else{
-				console.log("##vso[task.setvariable variable=" + variable + ";issecret=true]" + val.stdout);
-			}
+		let remIndex = line.indexOf("#");
+		if(remIndex >= 0){
+			line = line.substring(0, remIndex);
 		}
-	}
 
-	//Files property - Get Value into file using path & field, variable will contain file path
-	let files = jsonObject['Files'];
-	if(files !== undefined){
-		let tempDirectory = tl.getVariable('agent.tempDirectory'); //get agent temp folder
-		for (var i = 0; i < files.length; i++) {
-			let field: string = files[i].Field
-			let path: string = files[i].Path
-			let variable: string = files[i].Variable
+		if(!line || line.length == 0){
+			continue;
+		}
 
-			console.log("Load File: Path=" + path + ", Field=" + field + ", Variable=" + variable);
+		let l = line.split("=>");
+		if(l.length != 4){
+			console.log("Data not valid (line " + index + ").");
+		
+			tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'Data not valid (line ${index})')
+			continue
+			//throw new Error('Data not valid (line ${index})');
+		}
 
-			let filename = tempDirectory + "/" + Guid.create();
-			var val = tl.execSync('sudo', '-E vault read -field=' + field + ' ' + path );
+		let type: string = l[0].trim().toLowerCase();
+		let path: string = l[1].trim();
+		let field: string = l[2].trim();
+		let var_name: string = l[3].trim();
 
-			if(val.code != 0){
-				console.log('Command Code: ' + val.code);
-				console.log('Command Error: ' + val.error);
-				
-				tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed (file)')
-				throw new Error('vault read failed (file)');
+		console.log("Value: Line=" + index + ", Type=" + type +", Path=" + path + ", Field=" + field + ", Variable=" + var_name);
+
+		var val = tl.execSync('sudo', '-E vault read -field=' + field + ' ' + path)  // + ' -format=table'); need new version
+		if(val.code != 0){
+			console.log('Command Code: ' + val.code);
+			console.log('Command Error: ' + val.error);
+			
+			tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'vault read failed (value)')
+			continue
+			//throw new Error('vault read failed (value)');
+		}
+
+		switch(type){
+			case "var":{
+				console.log("##vso[task.setvariable variable=" + var_name + ";issecret=true]" + val.stdout)
+				break;
 			}
-			else{
+			case "raw":{
+				let filename = tempDirectory + "/" + var_name + "-" + Guid.create();
 
 				//write field to file
 				const fs = require('fs')
 				fs.writeFile(filename, val.stdout, (err) => {
 					if (err) {
-						tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'write to file - failed')
-						throw new Error('write value to file - failed');
+						tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'write to raw file - failed')
+						throw new Error('write value to raw file - failed');
 					}
 
+					tl.execSync('chmod', '400 ' + filename)
+
 					//update variable with full name
-					console.log("##vso[task.setvariable variable=" + variable + ";issecret=false]" + filename);
+					console.log("##vso[task.setvariable variable=" + var_name + ";issecret=false]" + filename);
 				});
+				break;
 			}
+			case "base64":{
+				let filename = tempDirectory + "/" + var_name + "-" + Guid.create();
+
+				let buff = new Buffer(val.stdout, 'base64');
+
+				//write field to file
+				const fs = require('fs')
+				fs.writeFile(filename, buff, (err) => {
+					if (err) {
+						tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, 'write to raw file - failed')
+						throw new Error('write value to base64 file - failed');
+					}
+
+					tl.execSync('chmod', '400 ' + filename)
+
+					//update variable with full name
+					console.log("##vso[task.setvariable variable=" + var_name + ";issecret=false]" + filename);
+				});
+
+				break;
+			}
+			default: { 
+				console.log("Vault read failed (line " + index + ")");
+				tl.command( 'task.complete', { 'result': tl.TaskResult.Failed }, "Vault read failed (line " + index + ")")
+				break; 
+			} 
 		}
 	}
-
 }
 
 run();

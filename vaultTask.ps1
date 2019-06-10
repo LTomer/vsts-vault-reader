@@ -51,7 +51,7 @@ foreach($line in $array){
 	$field = $l[2].Trim()
 	$var_name = $l[3].Trim()
 
-	Write-Host "Load Value $index - Type=$type, Path=$path, Field=$field, Variable=$var_name"
+	Write-Host "Value: Line=$index, Type=$type, Path=$path, Field=$field, Variable=$var_name"
 
 	$val = vault read "-field=$field" $path
 	if( -not $? )
