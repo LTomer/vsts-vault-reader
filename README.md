@@ -1,9 +1,3 @@
- _   _             _ _    ______               _           
-| | | |           | | |   | ___ \             | |          
-| | | | __ _ _   _| | |_  | |_/ /___  __ _  __| | ___ _ __ 
-| | | |/ _` | | | | | __| |    // _ \/ _` |/ _` |/ _ \ '__|
-\ \_/ / (_| | |_| | | |_  | |\ \  __/ (_| | (_| |  __/ |   
- \___/ \__,_|\__,_|_|\__| \_| \_\___|\__,_|\__,_|\___|_|   
 
 ### vsts-vault-reader
 Login & Get Values from HashiCorp Vault Server.
@@ -38,7 +32,9 @@ _DataType_
    $fn = [relevant file name include folder]
 
    $content = Get-Content $fn -Encoding Byte
+   
    $base64 = [Convert]::ToBase64String($content)
+   
    $base64 | Out-File "$fn.txt"
 
 -------------------------------------------------------
