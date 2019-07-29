@@ -46,7 +46,7 @@ _DataType_
    
    $b  = [System.Convert]::FromBase64String($base64)
    
-   [System.Text.Encoding]::UTF8.GetString($b) | Out-File -FilePath $fileName
+   [System.Text.Encoding]::UTF8.GetString($b) | Out-File -FilePath $fn
    
 -------------------------------------------------------
 * put the $fn.txt file content into vault.
