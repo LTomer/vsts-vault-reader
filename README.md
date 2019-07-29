@@ -38,4 +38,15 @@ _DataType_
    $base64 | Out-File "$fn.txt"
 
 -------------------------------------------------------
+   # Decode BASE64
+   
+   $fn = "[save file name + path]"
+   
+   $base64 = '[insert base64]'
+   
+   $b  = [System.Convert]::FromBase64String($base64)
+   
+   [System.Text.Encoding]::UTF8.GetString($b) | Out-File -FilePath $fileName
+   
+-------------------------------------------------------
 * put the $fn.txt file content into vault.
