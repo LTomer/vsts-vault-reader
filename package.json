@@ -2,24 +2,31 @@
   "name": "vault-reader",
   "version": "1.0.1",
   "description": "Vault Login & Get data from server",
-  "main": "ftpuploadtask.js",
+  "keywords": [
+    "extensions",
+    "Azure DevOps",
+    "hashicorp",
+    "vault"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LTomer/vsts-vault-reader.git"
+    "url": "https://github.com/LTomer/vault-reader"
   },
   "author": "Tomer Levit",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LTomer/vsts-vault-reader/issues"
+    "url": "https://github.com/LTomer/vault-reader/issues"
   },
-  "homepage": "https://github.com/LTomer/vsts-vault-reader",
+  "homepage": "https://github.com/LTomer/vault-reader",
   "dependencies": {
+    "azure-pipelines-task-lib": "^2.9.3",
     "guid-typescript": "^1.0.9",
-    "parse-json": "^4.0.0",
-    "vsts-task-lib": "^2.7.0"
+    "parse-json": "^5.0.0",
+    "path": "^0.12.7",
+    "unirest": "^0.6.0"
   },
   "devDependencies": {
-    "@types/node": "^12.0.4",
+    "@types/node": "^13.13.0",
     "@types/q": "^1.5.2"
   }
 }

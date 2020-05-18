@@ -2,22 +2,20 @@
   "id": "34d19f40-9306-11e8-80f8-e3fce4d54d7e",
   "name": "VaultReader",
   "friendlyName": "Vault Reader",
-  "description": "Login & Get Values from HashiCorp Vault Server",
+  "description": "Read secrets from HashiCorp Vault Server",
   "author": "Tomer Levitt",
-  "helpMarkDown": "add Vault cli to path environment variable. Task icon taken from https://icons8.com/",
+  "helpMarkDown": "Task icon was taken from https://icons8.com/",
   "category": "Utility",
   "visibility": [
     "Build",
     "Release"
   ],
-  "demands": [
-    "VAULT_ADDR"
-  ],
   "version": {
-    "Major": "1",
+    "Major": "2",
     "Minor": "0",
-    "Patch": "5"
+    "Patch": "74"
   },
+  "releaseNotes": "",
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Vault Reader",
   "inputs": [
@@ -26,32 +24,85 @@
       "type": "connectedService:Generic",
       "label": "Vault User",
       "defaultValue": "",
-      "helpMarkDown": "Select a previously registered service connection to talk to the Vault service. Choose 'Manage' to register a new service connection."
+      "required": true,
+      "helpMarkDown": "Select a service connection to connect to the Vault service."
+    },
+    {
+      "name": "sourceType",
+      "type": "radio",
+      "label": "Source Type",
+      "required": false,
+      "defaultValue": "inline",
+      "helpMarkDown": "Target script type: 'File Path' or 'Inline'",
+      "options": {
+        "inline": "Inline",
+        "filePath": "File Path"
+      }
+    },
+    {
+      "name": "variableData",
+      "type": "multiLine",
+      "label": "Variables",
+      "defaultValue": "# [Variable Name] <= [Value]",
+      "helpMarkDown": "Setting Task Variables.",
+      "visibleRule": "sourceType = filePath",
+      "properties": {
+        "resizable": "true",
+        "rows": "10",
+        "maxLength": "1000"
+      }
+    },
+    {
+      "name": "filePath",
+      "type": "filePath",
+      "label": "Source File",
+      "visibleRule": "sourceType = filePath",
+      "required": true,
+      "defaultValue": "",
+      "helpMarkDown": "Read instructions from a file. Must be a fully qualified path or relative to $(System.DefaultWorkingDirectory)."
     },
     {
       "name": "data",
       "type": "multiLine",
       "label": "Data",
-      "defaultValue": "# {DataType} => {Path} => {Field} => {TFSVar}",
+      "defaultValue": "# [ActionType] => [Path] => [Field] => [Azure-DevOps-Variable]",
       "required": true,
-      "helpMarkDown": "Data Structure: {DataType(var | raw | base64)} => {Path} => {Field} => {TFSVar}.  use # sign for comment. var - insert value into secure TFS Vaiable, raw - save value as is into file and set TFS variable with file location, base64 - decode value as base64 and save into file & set TFS variable with file location",
+      "helpMarkDown": "See documation on git repository.",
+      "visibleRule": "sourceType = inline",
       "properties": {
         "resizable": "true",
         "rows": "20",
-        "maxLength": "2000"
+        "maxLength": "5000"
       }
     }
   ],
   "execution": {
-    "Node": {
-      "target": "vaultTask.js",
+    "Node10": {
+      "target": "vault-reater.js",
       "argumentFormat": ""
-    },
-    "PowerShell3": {
-      "target": "vaultTask.ps1",
-      "platforms": [
-        "windows"
-      ]
     }
+  },
+  "messages": {
+      "serviceDetailsMissing": "Service details are missing (user \\ password \\ URL \\ Login Type)",
+      "getSecretFail": "Get secret process has failed (%s) - %s",
+      "tokenFail": "Get token process has failed",
+      "variableAlreadyExist": "Variable %s already exists",
+      "setVariable": "Variable %s was set.",
+      "actionLine": "Action line: Line=%s, Action=%s, Path=%s, Field=%s, Variable=%s",
+      "emptySecret": "Value is empty",
+      "fieldNotExist": "Line %s, Field '%s' do not exist. Type '%s'",
+      "dataNotExist": "Line %s, Path %s do not exist. Type %s",
+      "writeFieldToFileFail": "Failed saving data of %s to file.",
+      "actionTypeNotImplemented": "ActionType %s is not valid.",
+      "writeToFileFail": "Writing to file has failed.",
+      "loginTypeNotValid": "Login Type is not valid.",
+      "tokenPropertyNotExist": "Token property does not exist.",
+      "dataOnPathNotExist": "Data on Path does not exist.",
+      "invalidFilePath": "Invalid file path '%s'.",
+      "unknownLineFormat": "Unknown line format.",
+      "loadJsonFromFileFail": "Error while loading JSON file.",
+      "secretNotEqualToSchema": "Secret object validation failed.",
+      "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
+      "compareObjectKeyNotExist": "The key %s does not exist in the secound object."
   }
 }
