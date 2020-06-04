@@ -13,14 +13,14 @@
   "version": {
     "Major": "2",
     "Minor": "0",
-    "Patch": "74"
+    "Patch": "76"
   },
   "releaseNotes": "",
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Vault Reader",
   "inputs": [
     {
-      "name": "connectedServiceName",
+      "name": "vaultService",
       "type": "connectedService:Generic",
       "label": "Vault User",
       "defaultValue": "",
@@ -92,16 +92,16 @@
       "emptySecret": "Value is empty",
       "fieldNotExist": "Line %s, Field '%s' do not exist. Type '%s'",
       "dataNotExist": "Line %s, Path %s do not exist. Type %s",
-      "writeFieldToFileFail": "Failed saving data of %s to file.",
-      "actionTypeNotImplemented": "ActionType %s is not valid.",
+      "writeFieldToFileFail": "Line %s, Failed saving data of %s to file.",
+      "actionTypeNotImplemented": "Line %s, ActionType %s is not valid.",
       "writeToFileFail": "Writing to file has failed.",
       "loginTypeNotValid": "Login Type is not valid.",
       "tokenPropertyNotExist": "Token property does not exist.",
       "dataOnPathNotExist": "Data on Path does not exist.",
       "invalidFilePath": "Invalid file path '%s'.",
       "unknownLineFormat": "Unknown line format.",
-      "loadJsonFromFileFail": "Error while loading JSON file.",
-      "secretNotEqualToSchema": "Secret object validation failed.",
+      "loadJsonFromFileFail": "Line %s, Error while loading JSON file.",
+      "secretNotEqualToSchema": "Line %s, Secret object validation failed.",
       "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
       "compareObjectKeyNotExist": "The key %s does not exist in the secound object."
   }
