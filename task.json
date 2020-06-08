@@ -13,7 +13,7 @@
   "version": {
     "Major": "2",
     "Minor": "0",
-    "Patch": "77"
+    "Patch": "80"
   },
   "releaseNotes": "",
   "minimumAgentVersion": "1.95.0",
@@ -104,6 +104,7 @@
       "secretNotEqualToSchema": "Line %s, Secret object validation failed.",
       "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
       "compareObjectKeyNotExist": "The key %s does not exist in the secound object.",
-      "skipCompareObject": "Line %s, Skip compare object to json file"
+      "skipCompareObject": "Line %s, Skip compare object to json file.",
+      "UnknownErrorProcessType": "Line %s, Unknown error occurred at %s process type. message: '%s'"
   }
 }
