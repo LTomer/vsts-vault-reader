@@ -13,7 +13,7 @@
   "version": {
     "Major": "2",
     "Minor": "0",
-    "Patch": "76"
+    "Patch": "77"
   },
   "releaseNotes": "",
   "minimumAgentVersion": "1.95.0",
@@ -99,10 +99,11 @@
       "tokenPropertyNotExist": "Token property does not exist.",
       "dataOnPathNotExist": "Data on Path does not exist.",
       "invalidFilePath": "Invalid file path '%s'.",
-      "unknownLineFormat": "Unknown line format.",
+      "unknownLineFormat": "Line %s, Unknown line format.",
       "loadJsonFromFileFail": "Line %s, Error while loading JSON file.",
       "secretNotEqualToSchema": "Line %s, Secret object validation failed.",
       "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
-      "compareObjectKeyNotExist": "The key %s does not exist in the secound object."
+      "compareObjectKeyNotExist": "The key %s does not exist in the secound object.",
+      "skipCompareObject": "Line %s, Skip compare object to json file"
   }
 }
