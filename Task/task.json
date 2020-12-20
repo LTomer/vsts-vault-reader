@@ -13,7 +13,7 @@
   "version": {
     "Major": "2",
     "Minor": "0",
-    "Patch": "84"
+    "Patch": "90"
   },
   "releaseNotes": "",
   "minimumAgentVersion": "1.95.0",
@@ -105,6 +105,8 @@
       "compareObjectNumberOfKeysNotEqual": "Number Of keys at %s is not equal.",
       "compareObjectKeyNotExist": "The key %s does not exist in the secound object.",
       "skipCompareObject": "Line %s, Skip compare object to json file.",
-      "UnknownErrorProcessType": "Line %s, Unknown error occurred at %s process type. message: '%s'"
+      "UnknownErrorProcessType": "Line %s, Unknown error occurred at %s process type. message: '%s'",
+      "ConnectionDetailsDebug": "Connection details: url=%s, loginType=%s",
+      "ServiceNotExist": "Service does not define"
   }
 }
