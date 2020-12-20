@@ -76,7 +76,7 @@
     ],
     "files": [
         "Task/vault-reater.ts",
-        "Task/vault_helper.ts",
+        "Task/vault-helper.ts",
         "Task/util.ts"
     ]
 }
