@@ -19,14 +19,14 @@
   },
   "homepage": "https://github.com/LTomer/vault-reader",
   "dependencies": {
-    "azure-pipelines-task-lib": "^2.9.3",
+    "azure-pipelines-task-lib": "^2.11.3",
     "guid-typescript": "^1.0.9",
     "parse-json": "^5.0.0",
     "path": "^0.12.7",
     "unirest": "^0.6.0"
   },
   "devDependencies": {
-    "@types/node": "^13.13.0",
-    "@types/q": "^1.5.2"
+    "@types/node": "^10.17.48",
+    "@types/q": "^1.5.4"
   }
 }

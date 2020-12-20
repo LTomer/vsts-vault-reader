@@ -1,0 +1,44 @@
+{
+    "manifestVersion": 1,
+    "id": "vault-reader",
+    "name": "Vault Reader",
+    "version": "0.0.1",
+    "publisher": "Tomer",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "Read secrets from hashicorp vault server.",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "images/icon-128.png"        
+    },
+    "files": [
+        {
+            "path": "Task"
+        }
+    ],
+    "tags": [
+        "vault", "hashicorp"
+    ],
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/LTomer/vault-reader"
+    },
+    "contributions": [
+        {
+            "id": "vault-reader",
+            "type": "ms.vss-distributed-task.task",
+            "description": "Read secrets from hashicorp vault server.",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Task"
+            }
+        }
+    ]
+}
