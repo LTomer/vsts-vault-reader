@@ -13,7 +13,7 @@
   "version": {
     "Major": "2",
     "Minor": "0",
-    "Patch": "90"
+    "Patch": "94"
   },
   "releaseNotes": "",
   "minimumAgentVersion": "1.95.0",
@@ -21,7 +21,7 @@
   "inputs": [
     {
       "name": "vaultService",
-      "type": "connectedService:Generic",
+      "type": "connectedService:VaultReader",
       "label": "Vault User",
       "defaultValue": "",
       "required": true,
@@ -83,7 +83,6 @@
     }
   },
   "messages": {
-      "serviceDetailsMissing": "Service details are missing (user \\ password \\ URL \\ Login Type)",
       "getSecretFail": "Get secret process has failed (%s) - %s",
       "tokenFail": "Get token process has failed",
       "variableAlreadyExist": "Variable %s already exists",
@@ -95,7 +94,6 @@
       "writeFieldToFileFail": "Line %s, Failed saving data of %s to file.",
       "actionTypeNotImplemented": "Line %s, ActionType %s is not valid.",
       "writeToFileFail": "Writing to file has failed.",
-      "loginTypeNotValid": "Login Type is not valid.",
       "tokenPropertyNotExist": "Token property does not exist.",
       "dataOnPathNotExist": "Data on Path does not exist.",
       "invalidFilePath": "Invalid file path '%s'.",

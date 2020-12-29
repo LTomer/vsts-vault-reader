@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vault-reader",
     "name": "Vault Reader",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "publisher": "Tomer",
     "targets": [
         {
@@ -22,7 +22,7 @@
         }
     ],
     "tags": [
-        "vault", "hashicorp"
+        "vault", "hashicorp", "secret"
     ],
     "repository": {
         "type": "git",
@@ -38,6 +38,88 @@
             ],
             "properties": {
                 "name": "Task"
+            }
+        },
+        {
+            "id": "vault-reader-service",
+            "description": "Service endpoint type for VaultReader connections",
+            "type": "ms.vss-endpoint.service-endpoint-type",
+            "targets": [ "ms.vss-endpoint.endpoint-types" ],
+            "properties": {
+                "name": "VaultReader",
+                "displayName": "Vault Reader",
+                "url": {
+                    "displayName": "Server URL",
+                    "helpText": "Hashicorp Vault server url"
+                },
+                "authenticationSchemes": [
+                {
+                  "type": "ms.vss-endpoint.endpoint-auth-scheme-none",
+                    "inputDescriptors": [
+                    {
+                      "id": "AuthMethods",
+                      "name": "Auth Methods",
+                      "description": "Select auth method from the list",
+                      "inputMode": "combo",
+                      "isConfidential": false,
+                      "hasDynamicValueInformation": false,
+                      "values": {
+                        "inputId": "defaultVersionTypeValues",
+                        "possibleValues": [
+                            {
+                                "value": "ldap",
+                                "displayValue": "LDAP"
+                            },
+                            {
+                                "value": "token",
+                                "displayValue": "Token"
+                            },
+                            {
+                                "value": "userpass",
+                                "displayValue": "Userpass"
+                            }
+                        ],
+                        "isLimitedToPossibleValues": true
+                      },
+                      "validation": {
+                        "isRequired": true,
+                        "dataType": "string"
+                      }
+                    },
+                    {
+                      "id": "Username",
+                      "name": "Username",
+                      "inputMode": "textBox",
+                      "isConfidential": false,
+                      "validation": {
+                        "isRequired": true,
+                        "dataType": "string"
+                      }
+                    },
+                    {
+                      "id": "Password",
+                      "name": "Password/Token",
+                      "inputMode": "passwordbox",
+                      "isConfidential": true,
+                      "validation": {
+                        "isRequired": true,
+                        "dataType": "string"
+                      }
+                    },
+                    {
+                      "id": "DisableStrictSSL",
+                      "name": "Disable strict SSL",
+                      "description": "Disable SSL certificate check",
+                      "inputMode": "CheckBox",
+                      "validation": {
+                        "isRequired": false,
+                        "dataType": "Boolean"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "helpMarkDown": "<a href=\"url-to-documentation-TEST\" target=\"_blank\"><b>Learn More for TEST</b></a>"
             }
         }
     ]
