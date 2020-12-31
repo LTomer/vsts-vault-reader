@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vault-reader",
     "name": "Vault Reader",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "Tomer",
     "targets": [
         {
@@ -14,7 +14,7 @@
         "Azure Pipelines"
     ],
     "icons": {
-        "default": "images/icon-128.png"        
+        "default": "images/icons8-safe-128.png"        
     },
     "files": [
         {
@@ -30,7 +30,7 @@
     },
     "contributions": [
         {
-            "id": "vault-reader",
+          "id": "vault-reader",
             "type": "ms.vss-distributed-task.task",
             "description": "Read secrets from hashicorp vault server.",
             "targets": [

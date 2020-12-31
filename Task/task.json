@@ -4,7 +4,7 @@
   "friendlyName": "Vault Reader",
   "description": "Read secrets from HashiCorp Vault Server",
   "author": "Tomer Levitt",
-  "helpMarkDown": "Task icon was taken from https://icons8.com/",
+  "helpMarkDown": "https://github.com/LTomer/vault-reader/blob/master/README.md",
   "category": "Utility",
   "visibility": [
     "Build",
@@ -13,7 +13,7 @@
   "version": {
     "Major": "2",
     "Minor": "0",
-    "Patch": "94"
+    "Patch": "95"
   },
   "releaseNotes": "",
   "minimumAgentVersion": "1.95.0",
@@ -22,7 +22,7 @@
     {
       "name": "vaultService",
       "type": "connectedService:VaultReader",
-      "label": "Vault User",
+      "label": "Vault Service",
       "defaultValue": "",
       "required": true,
       "helpMarkDown": "Select a service connection to connect to the Vault service."
