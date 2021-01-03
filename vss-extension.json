@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vault-reader",
     "name": "Vault Reader",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "Tomer",
     "targets": [
         {
