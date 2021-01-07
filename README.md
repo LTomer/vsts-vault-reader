@@ -17,7 +17,7 @@ How to create a service connection:
 
 ![](Images/Doc/NewServiceConnection.png)
 * Fill all details:
-   * Server URL - the url of the Hashicorp server. i.e. https://myvault.com:8200
+   * Server URL - the URL of the HashiCorp server. i.e. https://myvault.com:8200
    * Auth Methods - select the method from the list. i.e. LDAP, Token etc.
    * Username - enter username.
    * Password/Token - enter password or token for that user.
@@ -44,8 +44,8 @@ Open build/release and add the task from the list.
 The signs <span style="color:yellow">=></span> or <span style="color:yellow"><=</span> are part of the task instructions.
 
 <ins>General Instructions:</ins><br>
-* Comment - add a comment to your instraction by using <span style="color:yellow">#</span> at the begining of the line. the task will ignore that line.
-* Message - print a message during the Build/Release process by using <span style="color:yellow">@</span> at the begining of the line.
+* Comment - add a comment to your instruction by using <span style="color:yellow">#</span> at the beginning of the line. the task will ignore that line.
+* Message - print a message during the Build/Release process by using <span style="color:yellow">@</span> at the beginning of the line.
 
 
 <ins>Variables:</ins><br>
@@ -56,7 +56,7 @@ You can define a variable and use it later with the Action commands.<br>
 Example:
 projectPath <= /project/serviceA
 ```
-In this example we will create a varible named <span style="color:orange">projectPath</span> that sets the value <span style="color:green">/project/serviceA</span><br>
+In this example we will create a variable named <span style="color:orange">projectPath</span> that sets the value <span style="color:green">/project/serviceA</span><br>
 
 <ins>Define Actions:</ins><br>
 > General Format:
@@ -69,18 +69,20 @@ _Variables affect the <span style="color:lightpink">Path</span> and <span style=
 
 | Action | Description | Azure DevOps Variable [^1] |
 |--------|-------------|-----------------------|
-| var | reads vaule from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span> | assigns value to Azure DevOps variable [^2] |
-| pre | reads object from <span style="color:lightpink">Path</span><br> <span style="color:lightgreen">Field</span> will conatin a list of keys (separated by a comma) or * for all keys (not recommended) | assigns multiple values to multiple variables<br> in a single command [^2] [^3] |
+| var | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span> | assigns value to Azure DevOps variable [^2] |
+| pre | reads object from <span style="color:lightpink">Path</span><br> <span style="color:lightgreen">Field</span> will contain a list of keys (separated by a comma) or * for all keys (not recommended) | assigns multiple values to multiple variables<br> in a single command [^2] [^3] |
 | raw | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span> and store the value into a file (as is) | assigns file location into a variable [^4] [^5] |
 | base64 | reads value from <span style="color:lightpink">Path</span> & <span style="color:lightgreen">Field</span>, decodes the value from BASE64 and stores the result into a file | assigns file location into a variable [^4] [^5] |
-| json | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as json<br> <span style="color:lightgreen">Field</span> will contain location of the file schema. If the data and the schame aren't equal it would fail<br> use * to skip the compare process (not recommended). | assigns file location into a variable [^5] |
-|<br>
+| json | reads json object from <span style="color:lightpink">Path</span> and stores it into a file as json<br> <span style="color:lightgreen">Field</span> will contain location of the file schema. If the data and the scheme aren't equal it would fail<br> use * to skip the compare process (not recommended) | assigns file location into a variable [^5] |
+| rep | reads file from <span style="color:lightgreen">Field</span> and replaces the string \__[key]__ with a value that reads from <span style="color:lightpink">Path</span> and stores it into a file | assigns file location into a variable [^5] |
+
+<br>
 
 [^1]: Azure DevOps Variable - the result of the action will be stored at the variable and can be used in the next tasks as <span style="color:green">$(variableName)</span> <br>
 [^2]: The type of the variable is "secret" and therefore it can't be printed in the build & release console.<br>
 [^3]: Variable name: <span style="color:aqua">Azure-DevOps-Variable</span><span style="color:red">_</span><span style="color:lightgreen">Field</span><br>
 [^4]: On Linux OS set permissions to Read only.<br>
-[^5]: The file that contains the secrets will be deleted at the end of the build/release process.
+[^5]: The file that contains the secrets will be deleted at the end of the build/release process (the file is stored under _temp folder).
 
 <br>
 
@@ -136,13 +138,13 @@ raw => {servicePath} => rawData => file1
 base64 => {servicePath} => mySecret => secret
 ```
 _You can also use a variable as a part of Path/Field._<br>
-_For exapme: {servicePath}/test (equal to DemoProjects/project-B/service-A/test)_
+_For example: {servicePath}/test (equal to DemoProjects/project-B/service-A/test)_
 
 ### How to use <span style="color:yellow">json</span> action
 
 ![](Images/Doc/ExampleProjectBServiceB.png)
 
-We can create a json file that contains a tamplate (value will be empty). This way we can compare the scheme between the objects from the vault server and the json file. The json file can be stored on the source control and will be pulled during the build.
+We can create a json file that contains a template (value will be empty). This way we can compare the scheme between the objects from the vault server and the json file. The json file can be stored on the source control and will be pulled during the build.
 
 _File: service-b-template.json_ <br>
 _The json file will be stored under <span style="color:gray">config</span> folder in the git repository._
@@ -166,4 +168,32 @@ servicePath <= DemoProjects/project-B
 json => {servicePath}/service-B => config/service-b-template.json => configFile
 ```
 
+### How to use <span style="color:yellow">rep</span>lace action
+
+![](Images/Doc/ExampleProjectA.png)
+
+When we have a file that we want to inject secrets during the build/release process to it.
+For example, a secret.yaml file on the working directory that defines Secret for k8s cluster:
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-basic-auth
+type: kubernetes.io/basic-auth
+stringData:
+  username: __username__
+  password: __password__
+```
+
+On the task instructions:
+
+```
+# Inject secrets into a yaml file
+rep => DemoProjects/project-A => secret.yaml => secretFile
+```
+The variable $(secretFile) will contain the location of the updated file.<br>
+ To update kubernetes cluster you can run the following command:
+>kubectl apply -f $(secretFile)
+
+<br>
 ---
