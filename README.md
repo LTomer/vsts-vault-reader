@@ -52,6 +52,8 @@ The signs <span style="color:yellow">=></span> or <span style="color:yellow"><=<
 You can define a variable and use it later with the Action commands.<br>
 > Format: <span style="color:orange">Variable-Name</span> <= <span style="color:green">Value</span>
 
+_<span style="color:orange">Variable-Name</span> can contain Letters (upper/lower) and numbers. Must start with a letter._
+
 ```
 Example:
 projectPath <= /project/serviceA
@@ -65,7 +67,8 @@ In this example we will create a variable named <span style="color:orange">proje
 <span style="color:lightgreen">Field</span> =>
 <span style="color:aqua">Azure-DevOps-Variable</span><br>
 
-_Variables affect the <span style="color:lightpink">Path</span> and <span style="color:lightgreen">Field</span> of the action_
+_Task Variables can affect the <span style="color:lightpink">Path</span> and <span style="color:lightgreen">Field</span> of the action_ <br>
+_<span style="color:aqua">Azure-DevOps-Variable</span> can contain Letters (upper/lower), numbers, period and underline. Must start with a letter._
 
 | Action | Description | Azure DevOps Variable [^1] |
 |--------|-------------|-----------------------|
